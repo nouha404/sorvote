@@ -15,10 +15,17 @@ import lombok.NoArgsConstructor;
 public class Candidat extends Etudiant {
     private long nombreDeVote;
 
+    private String documentLibelle;
+    private String documentFormat;
+    private String documentPath;
+    private Long documentSize;
+
+    private String audioLibelle;
+    private String audioFormat;
+    private String audioPath;
+    private Long audioSize;
+
     @ManyToOne
     private Tendance tendance;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "candidat")
-    private Document document;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "candidat")
-    private Audio audio;
+
 }

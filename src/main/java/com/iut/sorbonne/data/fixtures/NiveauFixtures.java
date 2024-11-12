@@ -28,29 +28,3 @@ public class NiveauFixtures  implements CommandLineRunner {
 
     }
 }
-/*
-* Niveau
-Filiere
-Classe /
-Professeur @Order(4)
-EtatSession @Order(5)
-DateSession @Order(6)
--------------------------
-SessionVote 7
-Etudiant
-Audio
-Document
-Tendance
-Candidat
--------------------------
-Tendance @Order(7)
-Audio @Order(8)
-Document @Order(9)
-Etudiant @Order(10)
-Candidat @Order(11)
-SessionVote @Order(12)
-*
-*
-
-
-*/

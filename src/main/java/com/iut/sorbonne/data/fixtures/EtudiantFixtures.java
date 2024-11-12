@@ -16,7 +16,7 @@ import java.util.Locale;
 
 @RequiredArgsConstructor
 @Component
-@Order(8)
+@Order(7)
 public class EtudiantFixtures implements CommandLineRunner {
     private final SessionVoteRepository sessionVoteRepository;
     private final ClasseRepository classeRepository;
@@ -24,7 +24,7 @@ public class EtudiantFixtures implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for(long i = 1L; i<=30L; i++) {
+        for(long i = 1L; i<=40L; i++) {
             SessionVote sessionVote = sessionVoteRepository.findById(i).orElse(null);
             Classe classe = classeRepository.findById(i).orElse(null);
 
@@ -41,7 +41,6 @@ public class EtudiantFixtures implements CommandLineRunner {
             etudiant.setIdentifiant(faker.numerify("########"));
             etudiant.setSessionVote(sessionVote);
             etudiant.setClasse(classe);
-
             etudiantRepository.save(etudiant);
 
         }

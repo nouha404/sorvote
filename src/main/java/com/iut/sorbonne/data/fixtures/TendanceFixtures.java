@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-@Order(12)
+@Order(8)
 public class TendanceFixtures implements CommandLineRunner {
     private final TendanceRepository tendanceRepository;
     private final SessionVoteRepository sessionVoteRepository;

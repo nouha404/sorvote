@@ -12,13 +12,13 @@ import java.util.Locale;
 
 @RequiredArgsConstructor
 @Component
-@Order(4)
+@Order(5)
 public class ProfesseurFixtures implements CommandLineRunner {
     private final ProfesseurRepository professeurRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        for (long i = 1L; i<=10L; i++) {
+        for (long i = 1L; i<=15L; i++) {
             Faker faker = new Faker(new Locale("fr"));
 
             Professeur professeur = new Professeur();

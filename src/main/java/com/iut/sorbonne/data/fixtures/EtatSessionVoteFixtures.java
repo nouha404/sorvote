@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-@Order(5)
+@Order(4)
 public class EtatSessionVoteFixtures implements CommandLineRunner {
     private final EtatSessionVoteRepository etatSessionVoteRepository;
     @Override
