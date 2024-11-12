@@ -1,0 +1,25 @@
+package com.iut.sorbonne.data.enums;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public enum EFiliere {
+    // BUT
+    CARRIERES_SOCIALES_ANIMATION_SOCIALE_SOCIETALE(1),
+    CARRIERES_SOCIALES_ASSISTANCE_SOCIALE(2),
+    CARRIERES_SOCIALES_VILLES_TERRITOIRES_DURABLES(3), //CS
+    GENIE_BIOLOGIQUE_BIOLOGIE_MEDICALE_BIOTECHNOLOGIE(4), //GB
+    GEA_GESTION_COMPTABLE_FISCALE_FINANCIERE(5), //GEA
+    GEA_CONTROLE_DE_GESTION_PERFORMANCE(6),
+    GEA_GESTION_ENTREPRENEURIAT_MANAGEMENT_ACTIVITES(7),
+    METIERS_MULTIMEDIA_INTERNET(8), //MMI
+
+    // LP
+    LICENCE_PRO_ANIMATION_SOCIALE_SOCIETALE(9), //Animation Sociale et Sociétale
+    LICENCE_PRO_ASSISTANT_MANAGER(10), //Assistant Manager
+    LICENCE_PRO_JEU_VIDEO_LEVEL_DESIGNER(11); //Métiers du Jeu Vidéo : Level Designer et Game Designer
+
+    private final long index;
+}
