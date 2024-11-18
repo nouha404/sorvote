@@ -14,7 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(3)
 public class ClasseFixtures implements CommandLineRunner {
     private final ClasseRepository classeRepository;

@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Random;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(9)
 public class CandidatFixtures implements CommandLineRunner {
     private final CandidatRepository candidatRepository;

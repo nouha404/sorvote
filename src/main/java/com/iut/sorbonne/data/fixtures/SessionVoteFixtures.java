@@ -16,7 +16,7 @@ import java.time.LocalTime;
 import java.util.Collections;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(6)
 public class SessionVoteFixtures implements CommandLineRunner {
     private final SessionVoteRepository sessionVoteRepository;
@@ -26,7 +26,7 @@ public class SessionVoteFixtures implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for(long i = 1L; i<=10L; i++) {
+        for(long i = 1L; i <= 10L; i++) {
             Faker faker = new Faker();
             Professeur professeur = professeurRepository.findById(i).orElse(null);
             EtatSessionVote etatSessionVote = etatSessionVoteRepository.findById(i).orElse(null);
@@ -34,7 +34,6 @@ public class SessionVoteFixtures implements CommandLineRunner {
             SessionVote sessionVote = new SessionVote();
             sessionVote.setId(i);
             sessionVote.setIsActive(true);
-
             sessionVote.setDateDebut(LocalDate.now().plusDays(i));
             sessionVote.setDateFin(sessionVote.getDateDebut().plusDays(i));
             sessionVote.setHeureDebut(LocalTime.of(LocalTime.now().getHour(), 0));
@@ -59,9 +58,6 @@ public class SessionVoteFixtures implements CommandLineRunner {
                 sessionVote.setTendance(newTendance);
             }
             sessionVoteRepository.save(sessionVote);
-
-
         }
-
     }
 }

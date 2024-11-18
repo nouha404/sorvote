@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(5)
 public class ProfesseurFixtures implements CommandLineRunner {
     private final ProfesseurRepository professeurRepository;

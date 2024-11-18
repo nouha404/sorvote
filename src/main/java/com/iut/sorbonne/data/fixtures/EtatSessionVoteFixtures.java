@@ -9,7 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(4)
 public class EtatSessionVoteFixtures implements CommandLineRunner {
     private final EtatSessionVoteRepository etatSessionVoteRepository;

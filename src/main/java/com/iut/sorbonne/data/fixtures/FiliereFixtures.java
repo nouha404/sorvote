@@ -9,7 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(2)
 public class FiliereFixtures implements CommandLineRunner  {
     private final FiliereRepository filiereRepository;

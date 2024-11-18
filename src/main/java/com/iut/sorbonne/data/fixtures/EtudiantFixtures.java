@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 @Order(7)
 public class EtudiantFixtures implements CommandLineRunner {
     private final SessionVoteRepository sessionVoteRepository;

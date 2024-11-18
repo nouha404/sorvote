@@ -29,11 +29,20 @@ public class SessionVote extends  AbstractEntity {
     private EtatSessionVote etatSessionVote;
     @ManyToOne
     private Professeur professeur;
-    @OneToOne(mappedBy = "sessionVote", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "sessionVote",cascade = CascadeType.PERSIST)
     private Tendance tendance;
     @OneToMany(mappedBy = "sessionVote")
     private List<Etudiant> etudiants;
 
+    @Override
+    public String toString() {
+        return "SessionVote{" +
+                "dateDebut=" + dateDebut +
+                ", heureDebut=" + heureDebut +
+                ", dateFin=" + dateFin +
+                ", heureFin=" + heureFin +
+                '}';
+    }
 
 
 }
