@@ -17,6 +17,6 @@ public class Niveau extends AbstractEntity{
     @Enumerated(value = EnumType.STRING)
     private ENiveau libelle;
 
-    @OneToMany(mappedBy = "niveau")
+    @OneToMany(mappedBy = "niveau",cascade = CascadeType.ALL)
     private List<Classe> classes;
 }

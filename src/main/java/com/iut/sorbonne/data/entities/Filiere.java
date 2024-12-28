@@ -17,6 +17,6 @@ public class Filiere extends AbstractEntity{
     @Enumerated(value = EnumType.STRING)
     private EFiliere libelle;
 
-    @OneToMany(mappedBy = "filiere")
+    @OneToMany(mappedBy = "filiere",cascade = CascadeType.ALL)
     private List<Classe> classes;
 }

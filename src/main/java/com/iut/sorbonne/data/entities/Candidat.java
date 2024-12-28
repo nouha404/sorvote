@@ -13,19 +13,15 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "candidats")
 public class Candidat extends Etudiant {
-    private long nombreDeVote;
-
-    private String documentLibelle;
-    private String documentFormat;
-    private String documentPath;
-    private Long documentSize;
-
-    private String audioLibelle;
-    private String audioFormat;
-    private String audioPath;
-    private Long audioSize;
+    private Long nombreDeVote;
 
     @ManyToOne
     private Tendance tendance;
+
+    @OneToOne
+    private DocumentFile document;
+    @OneToOne
+    AudioFile audio;
+
 
 }

@@ -12,4 +12,5 @@ import java.util.List;
 public interface SessionVoteRepository extends JpaRepository<SessionVote, Long> {
     Page<SessionVote> findAllByIsActiveTrue(Pageable page);
     List<SessionVote> findAllByIsActiveTrue(); //for tester data
+    // Page<Cours> findByProfesseur(Professeur professeur, Pageable pageable);
 }

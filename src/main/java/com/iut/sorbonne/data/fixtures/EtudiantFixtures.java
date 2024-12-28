@@ -12,37 +12,34 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Locale;
 
 @RequiredArgsConstructor
-//@Component
-@Order(7)
+@Component
+@Order(5)
 public class EtudiantFixtures implements CommandLineRunner {
-    private final SessionVoteRepository sessionVoteRepository;
     private final ClasseRepository classeRepository;
     private final EtudiantRepository etudiantRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        for(long i = 1L; i<=40L; i++) {
-            SessionVote sessionVote = sessionVoteRepository.findById(i).orElse(null);
-            Classe classe = classeRepository.findById(i).orElse(null);
-
-            Faker faker = new Faker(new Locale("fr"));
-            Etudiant etudiant = new Etudiant();
-            etudiant.setId(i);
-            etudiant.setIsActive(true);
-            etudiant.setIsVoted(false);
-            etudiant.setEmail(faker.internet().emailAddress());
-            etudiant.setAdresse(faker.address().cityName());
-            etudiant.setNom(faker.name().firstName());
-            etudiant.setPrenom(faker.name().lastName());
-            etudiant.setTelephone(faker.phoneNumber().cellPhone());
-            etudiant.setIdentifiant(faker.numerify("########"));
-            etudiant.setSessionVote(sessionVote);
-            etudiant.setClasse(classe);
-            etudiantRepository.save(etudiant);
-
+        Faker faker = new Faker(new Locale("fr"));
+        List<Classe> classes = classeRepository.findAll();
+        for (Classe classe : classes) {
+            for (int i = 0; i < 20; i++) {
+                Etudiant etudiant = new Etudiant();
+                etudiant.setIdentifiant(faker.numerify("########"));
+                etudiant.setNom(faker.name().lastName());
+                etudiant.setPrenom(faker.name().firstName());
+                etudiant.setTelephone(faker.phoneNumber().cellPhone());
+                etudiant.setEmail(faker.internet().emailAddress());
+                etudiant.setAdresse(faker.address().cityName());
+                etudiant.setIsActive(true);
+                etudiant.setIsVoted(false);
+                etudiant.setClasse(classe);
+                etudiantRepository.save(etudiant);
+            }
         }
 
     }

@@ -4,11 +4,10 @@ import com.iut.sorbonne.data.entities.SessionVote;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-// public Page<SessionVote> getAllVotes(Pageable page) {
 
 public interface SessionVoteService {
     Page<SessionVote> getAllVotes(Pageable page);
+
     //SessionVote getVoteById(Long id);
     //void createSessionVote(SessionVote sessionVote);
 

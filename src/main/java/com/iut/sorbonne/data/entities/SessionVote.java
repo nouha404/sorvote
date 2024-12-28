@@ -1,9 +1,7 @@
 package com.iut.sorbonne.data.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -13,7 +11,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "SessionVotes")
 public class SessionVote extends  AbstractEntity {
     @DateTimeFormat(pattern = "EEEE dd MMMM yyyy")
@@ -29,20 +28,12 @@ public class SessionVote extends  AbstractEntity {
     private EtatSessionVote etatSessionVote;
     @ManyToOne
     private Professeur professeur;
-    @OneToOne(mappedBy = "sessionVote",cascade = CascadeType.PERSIST)
+
+    @OneToOne(mappedBy = "sessionVote",cascade = CascadeType.ALL)
     private Tendance tendance;
-    @OneToMany(mappedBy = "sessionVote")
+    @ManyToMany(mappedBy = "sessionVotes")
     private List<Etudiant> etudiants;
 
-    @Override
-    public String toString() {
-        return "SessionVote{" +
-                "dateDebut=" + dateDebut +
-                ", heureDebut=" + heureDebut +
-                ", dateFin=" + dateFin +
-                ", heureFin=" + heureFin +
-                '}';
-    }
 
 
 }

@@ -1,93 +1,68 @@
 package com.iut.sorbonne.data.fixtures;
 
 import com.github.javafaker.Faker;
-import com.iut.sorbonne.data.entities.Candidat;
-import com.iut.sorbonne.data.entities.Tendance;
+import com.iut.sorbonne.data.entities.*;
 import com.iut.sorbonne.data.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Random;
-
+import java.util.List;
 @RequiredArgsConstructor
-//@Component
-@Order(9)
+@Component
+@Order(10)
 public class CandidatFixtures implements CommandLineRunner {
     private final CandidatRepository candidatRepository;
-    private final EtudiantRepository etudiantRepository;
-    private final SessionVoteRepository sessionVoteRepository;
-    private final TendanceRepository tendanceRepository;
+    private final ClasseRepository classeRepository;
+    private final DocumentFileRepository documentFileRepository;
+    private final AudioFileRepository audioFileRepository;
 
     @Override
     public void run(String... args) throws Exception {
         Faker faker = new Faker();
-        String documentDirectory = "src/main/resources/static/documents/";
-        String audioDirectory = "src/main/resources/static/audios/";
+        List<Classe> classes = classeRepository.findAll();
+        List<DocumentFile> documents = documentFileRepository.findAll();
+        List<AudioFile> audios = audioFileRepository.findAll();
 
-        // Récupère tous les fichiers dans le répertoire
-        File[] documentFiles = new File(documentDirectory).listFiles();
-        File[] audioFiles = new File(audioDirectory).listFiles();
-
-
-
-        int fileIndex = 0;
-        Random rand = new Random();
-        for (long i=1;i<=sessionVoteRepository.count();i++) {
-            Tendance tendance = tendanceRepository.findById(i).orElse(null);
-            for (long j = 1; j<= 8L; j++) {
-
-
-                Candidat.CandidatBuilder candidatBuilder = Candidat.builder()
-                        .nombreDeVote(faker.number().numberBetween(0, (int) etudiantRepository.count()))
-                        .tendance(tendance);
-
-                // Ajout d'un document avec une probabilité de 50%
-                if (rand.nextBoolean() && documentFiles != null && documentFiles.length > 0) {
-                    File documentFile = documentFiles[fileIndex % documentFiles.length];
-
-                    String documentPath = documentFile.getAbsolutePath();
-                    String documentLibelle = documentFile.getName();
-                    long documentSize = Files.size(Paths.get(documentPath));
-
-                    candidatBuilder.documentFormat(getFileExtension(documentLibelle))
-                            .documentPath(documentPath)
-                            .documentLibelle(documentLibelle)
-                            .documentSize(documentSize);
-                }
-
-                if (rand.nextBoolean() && audioFiles != null && audioFiles.length > 0) {
-                    File audioFile = audioFiles[fileIndex % audioFiles.length];
-                    String audioPath = audioFile.getAbsolutePath();
-                    String audioLibelle = audioFile.getName();
-                    long audioSize = Files.size(Paths.get(audioPath));
-
-                    candidatBuilder.audioLibelle(audioLibelle)
-                            .audioFormat(getFileExtension(audioLibelle))
-                            .audioPath(audioPath)
-                            .audioSize(audioSize);
-                }
-
-                // Sauvegarde du candidat
-                Candidat candidat = candidatBuilder.build();
-                candidatRepository.save(candidat);
-                fileIndex++;
-
-            }
-
-
+        if (documents.isEmpty() || audios.isEmpty()) {
+            throw new RuntimeException("Les listes de documents ou d'audios sont vides.");
         }
 
-    }
+        int documentIndex = 0;
+        int audioIndex = 0;
 
-    // Obtenir l'extension du fichier
-    private String getFileExtension(String fileName) {
-        int lastIndex = fileName.lastIndexOf('.');
-        return (lastIndex == -1) ? "" : fileName.substring(lastIndex + 1);
-    }
+        for (Classe classe : classes) {
+            // Générer un nombre aléatoire de candidats entre 2 et 4
+            int nbCandidats = faker.number().numberBetween(2, 5);
 
+            for (int i = 0; i < nbCandidats; i++) {
+                // Vérifier la disponibilité des fichiers
+                if (documentIndex >= documents.size() || audioIndex >= audios.size()) {
+                    System.out.println("Pas assez de fichiers disponibles pour créer des candidats supplémentaires.");
+                    break;
+                }
+
+                // Créer un nouveau candidat
+                Candidat candidat = new Candidat();
+                candidat.setNom(faker.name().lastName());
+                candidat.setPrenom(faker.name().firstName());
+                candidat.setEmail(faker.internet().emailAddress());
+                candidat.setAdresse(faker.address().fullAddress());
+                candidat.setTelephone(faker.phoneNumber().cellPhone());
+                candidat.setIsActive(true);
+                candidat.setNombreDeVote((long) faker.number().numberBetween(0, 100));
+                candidat.setClasse(classe);
+
+                // Associer un document et un fichier audio
+                candidat.setDocument(documents.get(documentIndex++));
+                candidat.setAudio(audios.get(audioIndex++));
+
+                // Sauvegarder le candidat
+                candidatRepository.save(candidat);
+            }
+        }
+
+        System.out.println("Fixtures for Candidat created successfully!");
+    }
 }

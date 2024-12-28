@@ -1,8 +1,7 @@
 package com.iut.sorbonne.data.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.iut.sorbonne.data.enums.ESpecialite;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,8 @@ public class Professeur extends AbstractEntity {
     private String nom;
     private String prenom;
     private String email;
-
+    @Enumerated(value = EnumType.STRING)
+    private ESpecialite ESpecialite;
     @OneToMany(mappedBy = "professeur")
     private List<SessionVote> sessionVotes;
 }

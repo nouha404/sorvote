@@ -5,7 +5,6 @@ import com.iut.sorbonne.data.entities.*;
 import com.iut.sorbonne.data.repositories.EtatSessionVoteRepository;
 import com.iut.sorbonne.data.repositories.ProfesseurRepository;
 import com.iut.sorbonne.data.repositories.SessionVoteRepository;
-import com.iut.sorbonne.data.repositories.TendanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -13,51 +12,51 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
-//@Component
-@Order(6)
+@Component
+@Order(7)
 public class SessionVoteFixtures implements CommandLineRunner {
     private final SessionVoteRepository sessionVoteRepository;
-    private final ProfesseurRepository professeurRepository;
     private final EtatSessionVoteRepository etatSessionVoteRepository;
-    private final TendanceRepository tendanceRepository;
+    private final ProfesseurRepository professeurRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        for(long i = 1L; i <= 10L; i++) {
-            Faker faker = new Faker();
-            Professeur professeur = professeurRepository.findById(i).orElse(null);
-            EtatSessionVote etatSessionVote = etatSessionVoteRepository.findById(i).orElse(null);
-            Tendance tendance = tendanceRepository.findById(i).orElse(null);
-            SessionVote sessionVote = new SessionVote();
-            sessionVote.setId(i);
-            sessionVote.setIsActive(true);
-            sessionVote.setDateDebut(LocalDate.now().plusDays(i));
-            sessionVote.setDateFin(sessionVote.getDateDebut().plusDays(i));
-            sessionVote.setHeureDebut(LocalTime.of(LocalTime.now().getHour(), 0));
-            sessionVote.setHeureFin(LocalTime.of(LocalTime.now().getHour(), 0));
+        Faker faker = new Faker();
+        EtatSessionVote etatEnCours = etatSessionVoteRepository.findAll().stream()
+                .filter(etat -> "En cours".equals(etat.getLibelle()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Etat 'En cours' introuvable"));
 
-            sessionVote.setProfesseur(professeur);
-            sessionVote.setEtatSessionVote(etatSessionVote);
-            if (tendance == null) {
-                Candidat candidat = new Candidat();
-                candidat.setNombreDeVote(i);
-                candidat.setNom(faker.name().firstName());
-                candidat.setPrenom(faker.name().firstName());
-                candidat.setTelephone(faker.phoneNumber().phoneNumber());
-                candidat.setEmail(faker.internet().emailAddress());
-                candidat.setAdresse(faker.address().fullAddress());
-                candidat.setIdentifiant(faker.numerify("########"));
-                candidat.setIsActive(true);
-                Tendance newTendance = Tendance.builder()
-                        .sessionVote(sessionVote)
-                        .candidats(Collections.singletonList(candidat))
-                        .build();
-                sessionVote.setTendance(newTendance);
-            }
-            sessionVoteRepository.save(sessionVote);
+        EtatSessionVote etatTermine = etatSessionVoteRepository.findAll().stream()
+                .filter(etat -> "Terminé".equals(etat.getLibelle()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Etat 'Terminé' introuvable"));
+
+        List<Professeur> professeurs = professeurRepository.findAll();
+
+        for (Professeur professeur : professeurs) {
+            SessionVote sessionEnCours = new SessionVote();
+            sessionEnCours.setIsActive(true);
+            sessionEnCours.setDateDebut(LocalDate.now().plusDays(faker.number().numberBetween(1, 5)));
+            sessionEnCours.setDateFin(sessionEnCours.getDateDebut().plusDays(7));
+            sessionEnCours.setHeureDebut(LocalTime.of(faker.number().numberBetween(8, 12), 0));
+            sessionEnCours.setHeureFin(LocalTime.of(faker.number().numberBetween(14, 18), 0));
+            sessionEnCours.setProfesseur(professeur);
+            sessionEnCours.setEtatSessionVote(etatEnCours);
+            sessionVoteRepository.save(sessionEnCours);
+
+            SessionVote sessionTerminee = new SessionVote();
+            sessionTerminee.setIsActive(false);
+            sessionTerminee.setDateDebut(LocalDate.now().minusDays(faker.number().numberBetween(10, 20)));
+            sessionTerminee.setDateFin(sessionTerminee.getDateDebut().plusDays(7));
+            sessionTerminee.setHeureDebut(LocalTime.of(faker.number().numberBetween(8, 12), 0));
+            sessionTerminee.setHeureFin(LocalTime.of(faker.number().numberBetween(14, 18), 0));
+            sessionTerminee.setProfesseur(professeur);
+            sessionTerminee.setEtatSessionVote(etatTermine);
+            sessionVoteRepository.save(sessionTerminee);
         }
     }
 }

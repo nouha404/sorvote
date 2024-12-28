@@ -1,6 +1,5 @@
 package com.iut.sorbonne.data.fixtures;
 
-import com.github.javafaker.Faker;
 import com.iut.sorbonne.data.entities.EtatSessionVote;
 import com.iut.sorbonne.data.repositories.EtatSessionVoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,18 +8,22 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-//@Component
-@Order(4)
+@Component
+@Order(1)
 public class EtatSessionVoteFixtures implements CommandLineRunner {
     private final EtatSessionVoteRepository etatSessionVoteRepository;
     @Override
     public void run(String... args) throws Exception {
-        for (long i = 1L; i<=10; i++) {
-            EtatSessionVote etatSessionVote = new EtatSessionVote();
-            etatSessionVote.setIsActive(true);
-            etatSessionVote.setLibelle(i%2==0? "Encours": "Terminer");
-            etatSessionVoteRepository.save(etatSessionVote);
-        }
+        EtatSessionVote enCours = new EtatSessionVote();
+        enCours.setIsActive(true);
+        enCours.setLibelle("En cours");
+        etatSessionVoteRepository.save(enCours);
+
+        EtatSessionVote termine = new EtatSessionVote();
+        termine.setIsActive(false);
+        termine.setLibelle("Terminé");
+        etatSessionVoteRepository.save(termine);
 
     }
-}
+
+ }

@@ -19,14 +19,14 @@ public class SorbonneApplication implements CommandLineRunner {
 		SpringApplication.run(SorbonneApplication.class, args);
 	}
 
+	@Transactional
 	@Override
 	public void run(String... args) throws Exception {
 		List<SessionVote> sessionVotes = sessionVoteRepository.findAllByIsActiveTrue();
-
-		sessionVotes.stream().forEach(System.out::println);
-		/*sessionVotes.stream().forEach(sessionVote -> {
-			System.out.println(sessionVote.getProfesseur().toString());
-		});*/
+		sessionVotes.forEach(sessionVote -> {
+			System.out.println(sessionVote);
+			System.out.println(sessionVote.getProfesseur()); // Accès explicite à une relation paresseuse
+		});
 	}
 
 

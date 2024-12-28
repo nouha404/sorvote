@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
@@ -21,8 +23,8 @@ public class Etudiant extends AbstractEntity {
     private String telephone;
     private Boolean isVoted;
 
-    @ManyToOne
-    private SessionVote sessionVote;
+    @ManyToMany
+    private List<SessionVote> sessionVotes;
     @ManyToOne
     private Classe classe;
 
